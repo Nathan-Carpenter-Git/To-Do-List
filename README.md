@@ -1,12 +1,18 @@
-Creator: Nathan Carpenter
+# To-Do List
 
-ToDoList is a console application written in C++.
+## Author
+_Created by Nathan Carpenter_
 
-Prerequisites:
-  Support only Windows operating systems.
-  Extracting files to a program-accessible folder is not required but is suggested. (Lets the program save and load the list)
+## About
+To-Do List is a console application written in C++.
 
-How-To-Use:
-  The CPP file is not required to run the ToDoList application.
-  Running the exe will run the console application.
-  Typing in the corresponding numbers and pressing 'enter' will run the command.
+## Prerequisites
+- Support only Windows operating systems.
+- Extracting files to a program-accessible folder is not required but is suggested. (Lets the program save and load the list)
+
+## How to use
+- The CPP file is not required to run the To-Do List application.
+- Running the .exe file will run the console application.
+- Typing in the corresponding numbers and pressing 'enter' will run the command.
+
+![Preview](https://github.com/Nathan-Carpenter-Git/To-Do-List/assets/144058518/c3058395-a809-467b-878c-99be4f579cab)
