@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <bits/stdc++.h>
 
@@ -15,6 +16,8 @@ const string MAX_ITEMS_REACHED_TEXT = "You have reached the max items, remove or
 const string DUPLICATE_ENTRY_TEXT = "You already have this to-do list entry.";
 const string NO_MATCHING_ENTRY_TEXT = "Could not find a to-do list with the name: ";
 const string RETURN_TO_MAIN_MENU_TEXT = "Press enter to return to the main menu.";
+
+const string OUTPUT_FILE_NAME = "ToDoList.txt";
 
 const int MAX_TODO_ITEMS = 10;
 
@@ -38,6 +41,18 @@ void ShowTooManyItemsError(){
 void ShowNoMatchingToDoListItemsError(string item){
     cout << NO_MATCHING_ENTRY_TEXT << item << endl;
     ReturnToMainMenuPrompt();
+}
+
+void GetToDoList(){
+    ifstream inputFile(OUTPUT_FILE_NAME.c_str());
+
+    string line;
+
+    while(getline(inputFile, line)){
+        todoItems.push_back(line);
+    }
+    
+    inputFile.close();
 }
 
 void ShowToDoList(){
@@ -87,11 +102,22 @@ void AddToDoItem(){
     }
 
     todoItems.push_back(toDoItem);
+
+    ofstream outputFile;
+    outputFile.open(OUTPUT_FILE_NAME.c_str(), ios::app);
+    outputFile << toDoItem.c_str() << "\n";
+    outputFile.close();
+
     ShowToDoList();
 }
 
 void ClearToDoList(){
     todoItems.clear();
+
+    ofstream outputFile;
+    outputFile.open(OUTPUT_FILE_NAME.c_str());
+    outputFile.clear();
+    outputFile.close();
 
     cout << CLEAR_TODO_LIST_TEXT << endl;
     ReturnToMainMenuPrompt();
@@ -118,6 +144,8 @@ void RemoveToDoItem(){
 }
 
 int main(){
+    GetToDoList();
+
     string answer;
 
     answer = ShowMainMenu();
