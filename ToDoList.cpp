@@ -146,31 +146,30 @@ void RemoveToDoItem(){
 int main(){
     GetToDoList();
 
-    string answer;
+    for(;;) {
+        string answer;
 
-    answer = ShowMainMenu();
+        answer = ShowMainMenu();
 
-    // Main loop for app
+        // Main loop for app
         if (answer == "1"){
             AddToDoItem();
-            main();
         }
         else if (answer == "2"){
             RemoveToDoItem();
-            main();
         }
         else if (answer == "3"){
             ShowToDoList();
-            main();
         }
         else if (answer == "4"){
             ClearToDoList();
-            main();
         }
         else if (answer == "5"){
+            break;
         }
         else {
             cout << "Invalid choice" << endl;
-            main();
         }
+    }
+
 }
