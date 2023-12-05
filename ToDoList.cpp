@@ -18,6 +18,7 @@ const string NO_MATCHING_ENTRY_TEXT = "Could not find a to-do list with the name
 const string RETURN_TO_MAIN_MENU_TEXT = "Press enter to return to the main menu.";
 
 const string OUTPUT_FILE_NAME = "ToDoList.txt";
+const string TEMP_FILE_NAME = "temp.txt";
 
 const int MAX_TODO_ITEMS = 10;
 
@@ -38,12 +39,9 @@ void ShowTooManyItemsError(){
     ReturnToMainMenuPrompt();
 }
 
-void ShowNoMatchingToDoListItemsError(string item){
-    cout << NO_MATCHING_ENTRY_TEXT << item << endl;
-    ReturnToMainMenuPrompt();
-}
-
 void GetToDoList(){
+    todoItems.clear();
+
     ifstream inputFile(OUTPUT_FILE_NAME.c_str());
 
     string line;
@@ -56,6 +54,8 @@ void GetToDoList(){
 }
 
 void ShowToDoList(){
+    GetToDoList();
+
     int index = 0;
 
     cout << SHOW_TODO_LIST_TEXT << endl;
@@ -127,20 +127,48 @@ void RemoveToDoItem(){
     int index = 0;
     string itemToRemove;
     cout << REMOVE_TODO_ITEM_TEXT << endl;
+
     getline(cin, itemToRemove);
 
-    for (string item : todoItems){
+        for (string item : todoItems){
         index++;
 
         if (item == itemToRemove){
             todoItems.erase(todoItems.begin() + index);
+
             cout << "Removed " << itemToRemove << " Successfully." << endl;
-            ShowToDoList();
-            return;
+            break;
         }
     }
 
-    ShowNoMatchingToDoListItemsError(itemToRemove);
+    ifstream inputFile(OUTPUT_FILE_NAME.c_str());
+    string line;
+
+    if(!inputFile) {
+        cerr << "There was an error opening the file";
+        inputFile.close();
+        return;
+    }
+
+    ofstream outputFile(TEMP_FILE_NAME.c_str());
+
+    while(getline(inputFile, line)){
+        if(line != itemToRemove)
+        {
+            outputFile << line << std::endl;
+        }
+    }
+
+    outputFile.close();
+    inputFile.close();
+
+    remove(OUTPUT_FILE_NAME.c_str());
+
+    if(rename(TEMP_FILE_NAME.c_str(), OUTPUT_FILE_NAME.c_str()) != 0){
+        cerr << "Error renaming the file" << endl;
+    };
+
+    ShowToDoList();
 }
 
 int main(){
